@@ -1,0 +1,36 @@
+/* src/assets/styles/main.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --background-primary: #0a0a0a;
+  --background-secondary: #1a1a1a;
+  --background-tertiary: #2a2a2a;
+  
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-disabled: #525252;
+
+  --accent-primary: #4cceac;
+  --accent-hover: #3da68a;
+  
+  --border-color: #3f3f46;
+  --success-color: #4ade80;
+  --error-color: #f87171;
+
+  --font-family: 'Inter', sans-serif;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+}

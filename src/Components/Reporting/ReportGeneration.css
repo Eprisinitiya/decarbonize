@@ -1,0 +1,109 @@
+/* src/components/Reporting/ReportGeneration.css */
+.reporting-wizard {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: var(--background-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+}
+
+.wizard-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.wizard-step:last-child {
+  margin-bottom: 0;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.step-content {
+  width: 100%;
+}
+
+.step-content h3 {
+  margin: 0 0 1.5rem 0;
+  padding-top: 0.5rem;
+}
+
+.template-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.template-card {
+  padding: 1.5rem;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.template-card:hover {
+  border-color: var(--accent-hover);
+  background-color: var(--background-tertiary);
+}
+
+.template-card.active {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(76, 206, 172, 0.1);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.export-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.export-btn {
+  flex-grow: 1;
+  padding: 0.85rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+}
+
+.export-btn:hover {
+  border-color: var(--text-secondary);
+  background-color: #3f3f46;
+}
+
+.export-btn.pdf-btn {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #000;
+}
+.export-btn.pdf-btn:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}

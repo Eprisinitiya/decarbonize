@@ -1,0 +1,106 @@
+/* src/components/Authentication/Login.css */
+.login-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 65px); /* Full height minus navbar */
+  padding: 2rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--background-secondary);
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.login-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.input-group input::placeholder {
+  color: var(--text-disabled);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: var(--accent-primary);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-button:hover {
+  background-color: var(--accent-hover);
+}
+
+.login-button:disabled {
+  background-color: var(--background-tertiary);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.login-footer a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+.login-footer span {
+  color: var(--text-secondary);
+  margin: 0 0.5rem;
+}

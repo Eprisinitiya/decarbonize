@@ -1,0 +1,48 @@
+/* src/components/Layout/Sidebar.css */
+.sidebar {
+  width: 260px;
+  background-color: var(--background-secondary);
+  border-right: 1px solid var(--border-color);
+  height: calc(100vh - 65px); /* Full height minus navbar */
+  padding: 1.5rem 1rem;
+  position: fixed;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav li a:hover {
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+}
+
+.sidebar-nav li a.active {
+  background-color: var(--accent-primary);
+  color: #000;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-text {
+  font-size: 1rem;
+}   

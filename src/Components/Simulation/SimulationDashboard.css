@@ -1,0 +1,92 @@
+/* src/components/Simulation/SimulationDashboard.css */
+.simulation-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.scenario-builder-card, .comparison-dashboard-card {
+  background-color: var(--background-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+}
+
+.scenario-builder-card h3, .comparison-dashboard-card h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.builder-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.mitigation-levers h4, .scenario-timeline h4 {
+  margin-bottom: 1rem;
+}
+
+.lever-item {
+  background-color: var(--background-tertiary);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  font-weight: 500;
+}
+
+.scenario-timeline {
+  margin-top: 2rem;
+}
+
+.timeline-placeholder, .chart-placeholder-line {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-disabled);
+  border-radius: 8px;
+  background-color: var(--background-primary);
+  border: 1px dashed var(--border-color);
+}
+
+.comparison-chart, .financial-summary {
+  margin-bottom: 2rem;
+}
+
+.comparison-chart h5, .financial-summary h5 {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.summary-item {
+  background-color: var(--background-primary);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.summary-item span {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.summary-item strong {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--accent-primary);
+}
