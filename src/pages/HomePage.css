@@ -17,6 +17,8 @@
   text-align: center;
   padding: 120px 20px;
   position: relative;
+  text-align: center;
+  padding: 130px 0px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-color);
 }

@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Layout/Navbar';
 import './HomePage.css'; // We'll create this new CSS file for styling
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="homepage-container">
       <Navbar user={null} />
@@ -14,13 +17,18 @@ const HomePage = () => {
           <p className="hero-subheading">
             Track, analyze, and report your mine's carbon footprint with unparalleled precision and strategic insight.
           </p>
-          <button className="hero-cta-button">Get Started for Free</button>
+          <button
+            className="hero-cta-button"
+            onClick={() => navigate('/login')}
+          >
+            Get Started for Free
+          </button>
         </div>
         <div className="hero-glow-orb"></div>
       </header>
 
       {/* --- Features Section with Futuristic Cards --- */}
-      <section className="features-section">
+      <section id="features-section" className="features-section">
         <h2 className="section-title">An All-in-One Decarbonization Platform</h2>
         <div className="features-grid">
           <div className="feature-card">
@@ -42,7 +50,7 @@ const HomePage = () => {
       </section>
 
       {/* --- Interactive "How It Works" Section --- */}
-      <section className="how-it-works-section">
+      <section id="solution-section" className="how-it-works-section">
         <h2 className="section-title">From Data to Decision in 3 Steps</h2>
         <div className="steps-container">
             <div className="step-item">

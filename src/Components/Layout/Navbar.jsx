@@ -12,13 +12,14 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        {/* Replace with your actual logo */}
-        <img
-          src="/src/assets/Decarbonize-Logo1.png" // Update this path to your logo file location
-          alt="Decarbonize Logo"
-          className="navbar-logo-img"
-          style={{ height: '55px' }}
-        />
+        <Link to="/">
+          <img
+            src="/src/assets/Decarbonize-Logo.png" // Update path if needed
+            alt="Decarbonize Logo"
+            className="navbar-logo-img"
+            style={{ height: '55px' }}
+          />
+        </Link>
       </div>
       <div className="navbar-right">
         {user ? (
@@ -46,7 +47,7 @@ const Navbar = ({ user, onLogout }) => {
           // Default (Logged-Out) View
           <>
             <a href="#features-section" className="navbar-link">Features</a>
-            <a href="#solutions" className="navbar-link">Solutions</a>
+            <a href="#solution-section" className="navbar-link">Solutions</a>
             <Link to="/Login" className="navbar-btn-secondary">Login</Link>
             <Link to="/signup" className="navbar-btn-primary">Sign Up</Link>
           </>
