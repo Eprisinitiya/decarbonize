@@ -1,12 +1,16 @@
-src/components/Dashboard/Dashboard.css
 .dashboard-page {
   padding: 2rem;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
 .dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 1rem;
 }
 
 .dashboard-header h1 {
@@ -18,6 +22,35 @@ src/components/Dashboard/Dashboard.css
   color: var(--text-secondary);
   font-size: 1.1rem;
   margin-top: 0.5rem;
+}
+
+.time-filter {
+  display: flex;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+}
+
+.time-filter button {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.time-filter button:hover {
+  color: var(--text-primary);
+}
+
+.time-filter button.active {
+  background-color: var(--accent-primary);
+  color: #000;
+  font-weight: 600;
 }
 
 .kpi-grid {
@@ -41,21 +74,44 @@ src/components/Dashboard/Dashboard.css
   font-weight: 500;
 }
 
+.kpi-main {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
 .kpi-value {
-  font-size: 3rem;
+  font-size: 2.75rem;
   font-weight: 700;
   margin: 0;
-  color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.kpi-change {
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.kpi-change.increase {
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #fca5a5; /* Light red for negative trends */
+}
+
+.kpi-change.decrease {
+  background-color: rgba(76, 206, 172, 0.15);
+  color: #89ffd9; /* Light green for positive trends */
 }
 
 .kpi-unit {
-  margin: 0;
+  margin: 0.25rem 0 0 0;
   color: var(--text-secondary);
 }
 
-.widgets-grid {
+.widgets-grid-enhanced {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
@@ -64,34 +120,85 @@ src/components/Dashboard/Dashboard.css
   padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
+  min-height: 350px; /* Ensure consistent height */
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-card.large-widget {
+  grid-column: 1 / -1; /* Make this widget span both columns */
 }
 
 .widget-card h3 {
   margin-top: 0;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.chart-placeholder {
-  height: 250px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-disabled);
-  border-radius: 8px;
-  background-color: var(--background-primary);
-}
-
-.activity-feed {
+/* --- Attention List Styles --- */
+.attention-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+.attention-list li {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: rgba(255, 187, 40, 0.1);
+  border-left: 3px solid #FFBB28;
+  margin-bottom: 1rem;
+}
+.attention-list li strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+.attention-list li p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
 
-.activity-feed li {
+/* --- Activity Feed Styles --- */
+.activity-feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Allow list to fill space */
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-color);
 }
-.activity-feed li:last-child {
-  border: none;
+.activity-item:last-child {
+  border-bottom: none;
+}
+.activity-item p {
+  margin: 0;
+}
+.activity-item span {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+.activity-item.alert p strong {
+  color: #f87171;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .widgets-grid-enhanced {
+        grid-template-columns: 1fr;
+    }
+    .widget-card.large-widget {
+        grid-column: auto; /* Reset column span on smaller screens */
+    }
 }
