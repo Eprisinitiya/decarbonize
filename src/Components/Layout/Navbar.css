@@ -93,6 +93,7 @@
 
 .navbar-profile-menu {
   position: relative;
+  display: inline-block;
 }
 
 .navbar-profile-btn {
@@ -109,16 +110,17 @@
   display: none;
   position: absolute;
   right: 0;
-  top: calc(100% + 10px);
-  background-color: var(--background-secondary);
-  border: 1px solid var(--border-color);
+  top: 100%;
+  min-width: 180px;
+  background: rgba(30,30,30,0.98);
   border-radius: 8px;
-  min-width: 220px;
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 1rem 0.5rem;
+  z-index: 100;
 }
 
-.navbar-profile-menu:hover .navbar-dropdown {
+.navbar-profile-menu:hover .navbar-dropdown,
+.navbar-profile-menu:focus-within .navbar-dropdown {
   display: block;
 }
 
@@ -147,4 +149,64 @@
 
 .navbar-dropdown a:hover, .navbar-dropdown button:hover {
   background-color: var(--background-tertiary);
+}
+
+/* Notification dropdown styles */
+.navbar-icon-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 380px;
+  background: rgba(30,30,30,0.98);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 1rem 0.5rem;
+  z-index: 100;
+}
+
+.navbar-icon-dropdown:hover .notification-dropdown,
+.navbar-icon-dropdown:focus-within .notification-dropdown {
+  display: block;
+}
+
+.dropdown-header {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--accent-primary);
+}
+
+.dropdown-content p {
+  color: #bbb;
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.dropdown-content ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dropdown-content li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #222;
+}
+
+.dropdown-content li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-content div {
+  color: #fff;
+}
+
+.dropdown-content div[style*="color: #888"] {
+  color: #888 !important;
 }

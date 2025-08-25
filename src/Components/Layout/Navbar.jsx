@@ -7,6 +7,11 @@ const NotificationIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" f
 const HelpIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 const UserIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 
+const sampleNotifications = [
+  { id: 1, message: "Your GHG inventory for Q2 is ready for review.", time: "2h ago" },
+  { id: 2, message: "Sequestration project updated by team.", time: "5h ago" },
+  { id: 3, message: "New compliance report available.", time: "1d ago" }
+];
 
 const Navbar = ({ user, onLogout }) => {
   return (
@@ -14,7 +19,7 @@ const Navbar = ({ user, onLogout }) => {
       <div className="navbar-left">
         <Link to="/">
           <img
-            src="/src/assets/Decarbonize-Logo.png" // Update path if needed
+            src="/src/assets/Decarbonize-Logo.png"
             alt="Decarbonize Logo"
             className="navbar-logo-img"
             style={{ height: '55px' }}
@@ -25,8 +30,30 @@ const Navbar = ({ user, onLogout }) => {
         {user ? (
           // Logged-In View
           <>
-            <button className="navbar-icon-btn"><NotificationIcon /></button>
-            <button className="navbar-icon-btn"><HelpIcon /></button>
+            <div className="navbar-icon-dropdown">
+              <button className="navbar-icon-btn">
+                <NotificationIcon />
+              </button>
+              <div className="navbar-dropdown notification-dropdown">
+                <div className="dropdown-header">
+                  <strong>Notifications</strong>
+                </div>
+                <div className="dropdown-content">
+                  {sampleNotifications.length === 0 ? (
+                    <p>No new notifications.</p>
+                  ) : (
+                    <ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
+                      {sampleNotifications.map(n => (
+                        <li key={n.id} style={{ marginBottom: "0.75rem" }}>
+                          <div style={{ fontSize: "0.97rem" }}>{n.message}</div>
+                          <div style={{ fontSize: "0.8rem", color: "#888" }}>{n.time}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="navbar-profile-menu">
               <button className="navbar-profile-btn">
                 <UserIcon />

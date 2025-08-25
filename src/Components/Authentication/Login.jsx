@@ -14,9 +14,9 @@ const Login = ({ onLoginSuccess }) => {
 
     setTimeout(() => {
       if (email === 'admin@decarbonize.com' && password === 'password') {
-        onLoginSuccess({ role: 'Admin', name: 'Admin User' });
-      } else if (email === 'operator@mine.com' && password === 'password') {
-        onLoginSuccess({ role: 'Mine Operator', name: 'Coal Mine One' });
+        onLoginSuccess({ role: 'Admin', name: 'Mohit' });
+      } else if (email === 'operatormine@decarbonize.com' && password === 'password') {
+        onLoginSuccess({ role: 'Mine Operator', name: 'Aarushi' });
       } else {
         setError('Invalid credentials. Please try again.');
       }
