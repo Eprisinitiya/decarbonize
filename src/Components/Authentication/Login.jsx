@@ -62,7 +62,7 @@ const Login = ({ onLoginSuccess }) => {
         <div className="login-footer">
           <a href="#forgot">Forgot Password?</a>
           <span>•</span>
-          <a href="#signup">Don't have an account? Sign Up</a>
+          <a href="/signup">Don't have an account? Sign Up</a>
         </div>
       </div>
     </div>

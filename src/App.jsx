@@ -14,6 +14,8 @@ import Sidebar from './Components/Layout/Sidebar';
 // These act as the main entry points for different views
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import Signup from './Components/Authentication/Signup'; // Adjust path if needed
+import Login from './components/Authentication/Login';
 
 // --- Feature Components (for nested routing) ---
 // These are the core content views that will be swapped in the main area
@@ -79,6 +81,8 @@ function App() {
             user ? <Navigate to="/dashboard" /> : <LoginPage onLoginSuccess={handleLoginSuccess} />
           }
         />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
         {/* --- Protected Routes --- */}
         {/* All routes nested inside this element are protected.

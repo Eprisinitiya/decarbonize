@@ -1,15 +1,15 @@
-/* src/components/Layout/Navbar.css */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: var(--background-primary);
+  background-color: rgba(9, 9, 9, 0.85); /* Slightly transparent dark */
   border-bottom: 1px solid var(--border-color);
   height: 65px;
   position: sticky;
   top: 0;
   z-index: 1000;
+  backdrop-filter: blur(6px); 
 }
 
 .navbar-left, .navbar-right {
@@ -22,6 +22,12 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
+}
+
+.navbar-logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 .navbar-link {
@@ -42,6 +48,7 @@
   cursor: pointer;
   border: 1px solid var(--border-color);
   transition: all 0.2s ease-in-out;
+  text-decoration: none;
 }
 
 .navbar-btn-secondary {
