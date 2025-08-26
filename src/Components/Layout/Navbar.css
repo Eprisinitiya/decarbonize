@@ -210,3 +210,16 @@
 .dropdown-content div[style*="color: #888"] {
   color: #888 !important;
 }
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  padding: 0 12px 0 0;
+  margin-right: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.hamburger-btn svg {
+  display: block;
+}

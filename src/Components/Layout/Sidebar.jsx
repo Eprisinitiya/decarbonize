@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 // Assume you are using an icon library like react-icons
 // import { RxDashboard, RxBarChart, RxTree, RxRocket, RxDownload } from 'react-icons/rx';
@@ -7,11 +8,11 @@ const Sidebar = ({ user }) => {
   // Role-based navigation items
   const navItems = {
     'Admin': [
-      { name: 'Dashboard', icon: '📊' },
-      { name: 'All GHG Inventories', icon: '📉' },
-      { name: 'All Sequestration', icon: '🌳' },
-      { name: 'User Management', icon: '👥' },
-      { name: 'Reports', icon: '📄' },
+      { name: 'Dashboard', icon: '📊', path: '/dashboard' },
+      { name: 'All GHG Inventories', icon: '📉', path: '/dashboard/inventory' },
+      { name: 'All Sequestration', icon: '🌳', path: '/dashboard/sequestration' },
+      { name: 'User Management', icon: '👥', path: '/dashboard/users' },
+      { name: 'Reports', icon: '📄', path: '/dashboard/reports' },
     ],
     'Mine Operator': [
       { name: 'Dashboard', icon: '📊' },
@@ -36,10 +37,13 @@ const Sidebar = ({ user }) => {
         <ul>
           {itemsToShow.map(item => (
             <li key={item.name}>
-              <a href="#" className={item.name === 'Dashboard' ? 'active' : ''}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) => isActive ? 'active' : ''}
+              >
                 <span className="nav-icon">{item.icon}</span>
                 <span className="nav-text">{item.name}</span>
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

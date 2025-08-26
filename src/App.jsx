@@ -30,17 +30,30 @@ import ReportGeneration from './Components/Reporting/ReportGeneration';
  * It renders the Navbar, Sidebar, and an <Outlet> which acts as a
  * placeholder for the currently active feature component (e.g., Dashboard, Inventory).
  */
-const AppLayout = ({ user, onLogout }) => (
-  <>
-    <Navbar user={user} onLogout={onLogout} />
-    <div style={{ display: 'flex' }}>
-      <Sidebar user={user} />
-      <main style={{ marginLeft: '260px', flexGrow: 1, width: 'calc(100% - 260px)' }}>
-        <Outlet /> {/* Nested route components will be rendered here */}
-      </main>
-    </div>
-  </>
-);
+const AppLayout = ({ user, onLogout }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  return (
+    <>
+      <Navbar
+        user={user}
+        onLogout={onLogout}
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+      />
+      <div style={{ display: 'flex' }}>
+        {sidebarOpen && <Sidebar user={user} />}
+        <main style={{
+          marginLeft: sidebarOpen ? '260px' : '0',
+          flexGrow: 1,
+          width: sidebarOpen ? 'calc(100% - 260px)' : '100%',
+          transition: 'margin-left 0.3s'
+        }}>
+          <Outlet /> {/* Nested route components will be rendered here */}
+        </main>
+      </div>
+    </>
+  );
+};
 
 /**
  * @description A wrapper component to protect routes that require authentication.

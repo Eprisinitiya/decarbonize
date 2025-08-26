@@ -13,10 +13,23 @@ const sampleNotifications = [
   { id: 3, message: "New compliance report available.", time: "1d ago" }
 ];
 
-const Navbar = ({ user, onLogout }) => {
+const Navbar = ({ user, onLogout, onToggleSidebar }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
+        {user && (
+          <button
+            className="hamburger-btn"
+            onClick={onToggleSidebar}
+            aria-label="Toggle sidebar"
+          >
+            <svg width="32" height="32" viewBox="0 0 32 32">
+              <rect y="7" width="32" height="4" rx="2" fill="#333"/>
+              <rect y="15" width="32" height="4" rx="2" fill="#333"/>
+              <rect y="23" width="32" height="4" rx="2" fill="#333"/>
+            </svg>
+          </button>
+        )}
         <Link to="/">
           <img
             src="/src/assets/Decarbonize-Logo.png"
