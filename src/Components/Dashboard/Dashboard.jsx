@@ -65,7 +65,7 @@ const Dashboard = ({ user }) => {
     <div className="dashboard-page">
       <header className="dashboard-header">
         <div>
-            <h1>Welcome, {user ? user.name.split(' ')[0] : 'User'}</h1>
+            <h1>Welcome, {user.name.split(' ')[0]}</h1>
             <p>Here is your carbon performance snapshot.</p>
         </div>
         <div className="time-filter">
