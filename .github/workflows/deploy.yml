@@ -16,51 +16,43 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Sets up Node.js in the runner
+      # Explicitly set a stable Node.js version (LTS)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
 
-      # 3. Installs all project dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Runs the build script defined in package.json to create the /dist folder
       - name: Build project
         run: npm run build
 
-      # 5. Configures GitHub Pages for the deployment
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      # 6. Uploads the build output from the /dist folder as an artifact
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This path is crucial: it must point to your build output directory
+          # This path must point to your build output directory
           path: './dist'
 
-      # 7. Deploys the uploaded artifact to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
