@@ -1,5 +1,11 @@
 # Decarbonize: The OS for Carbon Intelligence
 
+## 🚀 [**LIVE DEMO**](https://decarbonize-app.netlify.app) 🚀
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4151bbd9-35df-4d73-b9dd-175872f07259/deploy-status)](https://app.netlify.com/sites/decarbonize-app/deploys)
+
+> **Experience the platform live at: [decarbonize-app.netlify.app](https://decarbonize-app.netlify.app)**
+
 <div align="justify">
 A futuristic, data-driven SaaS platform designed for the mining industry to track, analyze, simulate, and report their carbon footprint with unparalleled precision.
 In an era where environmental responsibility meets industrial necessity, Decarbonize emerges as the definitive solution for mining operations seeking to transform their carbon management from reactive compliance to proactive strategic advantage. Built specifically for the complexities of extractive industries, this comprehensive platform harnesses cutting-edge technology to deliver real-time carbon intelligence that drives both environmental impact and business value.<br><br><br>
@@ -192,6 +198,17 @@ Follow these steps to get a local copy of the project up and running.
    npm run build
    ```
 2. This command bundles the app into static files in the `/dist` directory, which can then be deployed to any static hosting service.
+
+### Deployment
+
+This project is automatically deployed to Netlify from the main branch. The live version is available at:
+
+🌐 **[decarbonize-app.netlify.app](https://decarbonize-app.netlify.app)**
+
+- **Automatic Deployments:** Every push to the main branch triggers a new deployment
+- **Build Configuration:** Configured via `netlify.toml` in the root directory
+- **CDN Distribution:** Served globally via Netlify's CDN for optimal performance
+- **Custom Domain Ready:** Easy to configure custom domains through Netlify dashboard
 
 ---
 
