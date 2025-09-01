@@ -24,13 +24,14 @@ import GHGInventory from './Components/GHGInventory/GHGInventory';
 import SequestrationManager from './Components/Sequestration/SequestrationManager';
 import SimulationDashboard from './Components/Simulation/SimulationDashboard';
 import ReportGeneration from './Components/Reporting/ReportGeneration';
+import ProfileSettings from './Components/Profile/ProfileSettings';
 
 /**
  * @description A layout component for the main application view after login.
  * It renders the Navbar, Sidebar, and an <Outlet> which acts as a
  * placeholder for the currently active feature component (e.g., Dashboard, Inventory).
  */
-const AppLayout = ({ user, onLogout }) => {
+const AppLayout = ({ user, onLogout, onUpdateProfile }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -48,7 +49,7 @@ const AppLayout = ({ user, onLogout }) => {
           width: sidebarOpen ? 'calc(100% - 260px)' : '100%',
           transition: 'margin-left 0.3s'
         }}>
-          <Outlet /> {/* Nested route components will be rendered here */}
+          <Outlet context={{ user, onUpdateProfile, onLogout }} /> {/* Nested route components will be rendered here */}
         </main>
       </div>
     </>
@@ -69,7 +70,15 @@ const ProtectedRoute = ({ user, children }) => {
 function App() {
   // Master state to track the currently logged-in user.
   // 'null' means the user is logged out.
-  const [user, setUser] = useState(null);
+  // For development purposes, we'll set a default test user
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    email: 'john.doe@ecotechsolutions.com',
+    role: 'Sustainability Manager',
+    company: 'EcoTech Solutions',
+    phone: '+1 (555) 123-4567',
+    department: 'Environmental Affairs'
+  });
 
   // This function will be passed down to the LoginPage to update the master state on success.
   const handleLoginSuccess = (userData) => {
@@ -79,6 +88,11 @@ function App() {
   // This function will be passed down to the Navbar to clear the user state.
   const handleLogout = () => {
     setUser(null);
+  };
+
+  // This function will be passed down to ProfileSettings to update user profile data.
+  const handleUpdateProfile = (updatedProfileData) => {
+    setUser(prevUser => ({ ...prevUser, ...updatedProfileData }));
   };
 
   return (
@@ -104,7 +118,7 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute user={user}>
-              <AppLayout user={user} onLogout={handleLogout} />
+              <AppLayout user={user} onLogout={handleLogout} onUpdateProfile={handleUpdateProfile} />
             </ProtectedRoute>
           }
         >
@@ -118,6 +132,33 @@ function App() {
           <Route path="reports" element={<ReportGeneration />} />
           {/* You can add more role-specific routes here, e.g., for an Admin */}
         </Route>
+
+        {/* --- Profile Settings Routes (Standalone) --- */}
+        {/* Profile settings is a standalone page, not nested within dashboard layout */}
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute user={user}>
+              <ProfileSettings 
+                user={user} 
+                onLogout={handleLogout} 
+                onUpdateProfile={handleUpdateProfile} 
+              />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/preferences" 
+          element={
+            <ProtectedRoute user={user}>
+              <ProfileSettings 
+                user={user} 
+                onLogout={handleLogout} 
+                onUpdateProfile={handleUpdateProfile} 
+              />
+            </ProtectedRoute>
+          } 
+        />
 
         {/* --- Fallback Route --- */}
         {/* If a user navigates to any URL that doesn't match the above,

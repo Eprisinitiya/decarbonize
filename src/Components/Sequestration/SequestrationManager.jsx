@@ -488,6 +488,386 @@ const SequestrationManager = () => {
     </div>
   );
 
+  // Generate comprehensive analytics data
+  const generateAnalyticsData = () => {
+    // Historical sequestration timeline (5 years)
+    const historicalData = [
+      { year: '2020', actual: 145, target: 120, cumulative: 145 },
+      { year: '2021', actual: 285, target: 260, cumulative: 430 },
+      { year: '2022', actual: 420, target: 400, cumulative: 850 },
+      { year: '2023', actual: 615, target: 580, cumulative: 1465 },
+      { year: '2024', actual: 800, target: 780, cumulative: 2265 },
+      { year: '2025', actual: summaryStats.totalSequestration, target: 1000, cumulative: summaryStats.totalSequestration + 2265 }
+    ];
+
+    // Future projections (10 years ahead)
+    const projectionData = [
+      { year: '2025', actual: summaryStats.totalSequestration, forecast: null },
+      { year: '2026', actual: null, forecast: 1240 },
+      { year: '2027', actual: null, forecast: 1650 },
+      { year: '2028', actual: null, forecast: 2180 },
+      { year: '2029', actual: null, forecast: 2850 },
+      { year: '2030', actual: null, forecast: 3600 },
+      { year: '2031', actual: null, forecast: 4420 },
+      { year: '2032', actual: null, forecast: 5280 },
+      { year: '2033', actual: null, forecast: 6180 },
+      { year: '2034', actual: null, forecast: 7120 },
+      { year: '2035', actual: null, forecast: 8100 }
+    ];
+
+    // Performance by project type
+    const performanceByType = projectTypes.map(type => {
+      const typeProjects = projects.filter(p => p.type === type.name);
+      const totalArea = typeProjects.reduce((sum, p) => sum + p.area, 0);
+      const totalSequestration = typeProjects.reduce((sum, p) => sum + p.currentSequestration, 0);
+      const avgEfficiency = totalArea > 0 ? totalSequestration / totalArea : 0;
+      const investment = typeProjects.reduce((sum, p) => sum + p.investment, 0);
+      const roi = investment > 0 ? ((totalSequestration * 25) - investment) / investment * 100 : 0; // Assuming $25/tCO2
+      
+      return {
+        type: type.name,
+        icon: type.icon,
+        projects: typeProjects.length,
+        area: totalArea,
+        sequestration: totalSequestration,
+        efficiency: avgEfficiency,
+        investment: investment,
+        roi: roi,
+        avgRate: type.avgRate
+      };
+    }).filter(type => type.projects > 0);
+
+    // Monthly sequestration trends (last 12 months)
+    const monthlyTrends = [
+      { month: 'Jan 2025', sequestered: 65, target: 70, efficiency: 0.93 },
+      { month: 'Feb 2025', sequestered: 68, target: 72, efficiency: 0.94 },
+      { month: 'Mar 2025', sequestered: 75, target: 74, efficiency: 1.01 },
+      { month: 'Apr 2025', sequestered: 82, target: 76, efficiency: 1.08 },
+      { month: 'May 2025', sequestered: 89, target: 85, efficiency: 1.05 },
+      { month: 'Jun 2025', sequestered: 95, target: 90, efficiency: 1.06 },
+      { month: 'Jul 2025', sequestered: 98, target: 95, efficiency: 1.03 },
+      { month: 'Aug 2025', sequestered: 92, target: 88, efficiency: 1.05 },
+      { month: 'Sep 2025', sequestered: 87, target: 85, efficiency: 1.02 },
+      { month: 'Oct 2025', sequestered: 78, target: 80, efficiency: 0.98 },
+      { month: 'Nov 2025', sequestered: 71, target: 75, efficiency: 0.95 },
+      { month: 'Dec 2025', sequestered: 67, target: 72, efficiency: 0.93 }
+    ];
+
+    // Risk assessment data
+    const riskData = [
+      { category: 'Climate Risk', score: 65, description: 'Moderate drought and extreme weather risk' },
+      { category: 'Survival Rate', score: 89, description: 'High survival rates across all projects' },
+      { category: 'Market Risk', score: 72, description: 'Stable carbon credit pricing' },
+      { category: 'Regulatory', score: 95, description: 'Strong regulatory support' },
+      { category: 'Financial', score: 83, description: 'Adequate funding secured' }
+    ];
+
+    // Carbon credit potential
+    const creditPotential = projects.map(project => {
+      const currentCredits = project.carbonCredits;
+      const potentialCredits = Math.floor(project.currentSequestration * 0.85); // 85% verification rate
+      const futureCredits = Math.floor(project.projectedTotal * 0.85);
+      
+      return {
+        name: project.name.substring(0, 15) + '...',
+        current: currentCredits,
+        potential: potentialCredits - currentCredits,
+        future: futureCredits - potentialCredits
+      };
+    });
+
+    return {
+      historicalData,
+      projectionData,
+      performanceByType,
+      monthlyTrends,
+      riskData,
+      creditPotential
+    };
+  };
+
+  const renderAdvancedAnalytics = () => {
+    const analyticsData = generateAnalyticsData();
+
+    return (
+      <div className="advanced-analytics-section">
+        <div className="analytics-header">
+          <h3>📈 Advanced Analytics & Projections</h3>
+          <p>Comprehensive insights into your carbon sequestration portfolio performance and future potential</p>
+        </div>
+
+        {/* Key Performance Indicators */}
+        <div className="analytics-kpi-grid">
+          <div className="analytics-kpi-card">
+            <div className="kpi-icon">🎕️</div>
+            <div className="kpi-content">
+              <h4>Portfolio Efficiency</h4>
+              <div className="kpi-value">{summaryStats.avgSequestrationRate.toFixed(2)} <span>tCO₂/ha/yr</span></div>
+              <div className="kpi-trend positive">+12.5% vs industry avg</div>
+            </div>
+          </div>
+          
+          <div className="analytics-kpi-card">
+            <div className="kpi-icon">💰</div>
+            <div className="kpi-content">
+              <h4>Revenue Potential</h4>
+              <div className="kpi-value">${((summaryStats.totalSequestration * 25) / 1000).toFixed(0)}K <span>from credits</span></div>
+              <div className="kpi-trend positive">@$25/tCO₂ market price</div>
+            </div>
+          </div>
+          
+          <div className="analytics-kpi-card">
+            <div className="kpi-icon">🎗️</div>
+            <div className="kpi-content">
+              <h4>Project Success Rate</h4>
+              <div className="kpi-value">89.2% <span>survival rate</span></div>
+              <div className="kpi-trend positive">Above 85% target</div>
+            </div>
+          </div>
+          
+          <div className="analytics-kpi-card">
+            <div className="kpi-icon">🔮</div>
+            <div className="kpi-content">
+              <h4>2030 Projection</h4>
+              <div className="kpi-value">{(summaryStats.totalProjectedSequestration / 1000).toFixed(1)}K <span>tCO₂</span></div>
+              <div className="kpi-trend positive">285% growth potential</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced Charts Grid */}
+        <div className="analytics-charts-grid">
+          {/* Historical Performance & Future Projections */}
+          <div className="analytics-chart-card large">
+            <div className="chart-header">
+              <h4>📉 Historical Performance & 10-Year Projection</h4>
+              <div className="chart-controls">
+                <span className="legend-item"><span className="legend-dot actual"></span>Actual</span>
+                <span className="legend-item"><span className="legend-dot forecast"></span>Forecast</span>
+              </div>
+            </div>
+            <ResponsiveContainer width="100%" height={350}>
+              <ComposedChart data={analyticsData.projectionData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="year" stroke="var(--text-secondary)" />
+                <YAxis stroke="var(--text-secondary)" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'var(--background-secondary)', border: '1px solid var(--border-color)' }}
+                  formatter={(value, name) => value ? [`${value} tCO₂`, name] : ['No data', name]}
+                />
+                <Legend />
+                <Bar dataKey="actual" fill={COLORS[0]} name="Historical Actual" />
+                <Line 
+                  type="monotone" 
+                  dataKey="forecast" 
+                  stroke={COLORS[2]} 
+                  strokeWidth={3}
+                  strokeDasharray="5 5"
+                  dot={{ r: 6 }}
+                  name="Future Projection"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Performance by Project Type */}
+          <div className="analytics-chart-card">
+            <div className="chart-header">
+              <h4>🏆 Performance by Project Type</h4>
+            </div>
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={analyticsData.performanceByType}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="type" stroke="var(--text-secondary)" angle={-45} textAnchor="end" height={80} />
+                <YAxis stroke="var(--text-secondary)" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'var(--background-secondary)', border: '1px solid var(--border-color)' }}
+                  formatter={(value, name) => {
+                    if (name === 'Efficiency') return [`${value.toFixed(2)} tCO₂/ha/yr`, name];
+                    if (name === 'ROI') return [`${value.toFixed(1)}%`, name];
+                    return [value, name];
+                  }}
+                />
+                <Legend />
+                <Bar dataKey="efficiency" fill={COLORS[0]} name="Efficiency" />
+                <Bar dataKey="roi" fill={COLORS[1]} name="ROI" opacity={0.7} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Monthly Sequestration Trends */}
+          <div className="analytics-chart-card large">
+            <div className="chart-header">
+              <h4>📅 Monthly Sequestration Trends (2025)</h4>
+            </div>
+            <ResponsiveContainer width="100%" height={350}>
+              <ComposedChart data={analyticsData.monthlyTrends}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="month" stroke="var(--text-secondary)" angle={-45} textAnchor="end" height={80} />
+                <YAxis yAxisId="left" stroke="var(--text-secondary)" />
+                <YAxis yAxisId="right" orientation="right" stroke="var(--text-secondary)" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'var(--background-secondary)', border: '1px solid var(--border-color)' }}
+                  formatter={(value, name) => {
+                    if (name === 'Efficiency') return [`${(value * 100).toFixed(1)}%`, name];
+                    return [`${value} tCO₂`, name];
+                  }}
+                />
+                <Legend />
+                <Area 
+                  yAxisId="left"
+                  type="monotone" 
+                  dataKey="target" 
+                  fill={COLORS[3]} 
+                  fillOpacity={0.3}
+                  stroke={COLORS[3]}
+                  name="Monthly Target"
+                />
+                <Bar 
+                  yAxisId="left"
+                  dataKey="sequestered" 
+                  fill={COLORS[0]} 
+                  name="Actual Sequestered"
+                />
+                <Line 
+                  yAxisId="right"
+                  type="monotone" 
+                  dataKey="efficiency" 
+                  stroke={COLORS[4]} 
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                  name="Efficiency Ratio"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Risk Assessment Radar */}
+          <div className="analytics-chart-card">
+            <div className="chart-header">
+              <h4>⚠️ Portfolio Risk Assessment</h4>
+            </div>
+            <div className="risk-assessment">
+              {analyticsData.riskData.map((risk, index) => (
+                <div key={index} className="risk-item">
+                  <div className="risk-info">
+                    <span className="risk-category">{risk.category}</span>
+                    <span className="risk-description">{risk.description}</span>
+                  </div>
+                  <div className="risk-score">
+                    <div className="risk-bar">
+                      <div 
+                        className={`risk-fill ${
+                          risk.score >= 80 ? 'low-risk' : 
+                          risk.score >= 60 ? 'medium-risk' : 'high-risk'
+                        }`}
+                        style={{ width: `${risk.score}%` }}
+                      ></div>
+                    </div>
+                    <span className="risk-value">{risk.score}/100</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Carbon Credit Potential */}
+          <div className="analytics-chart-card large">
+            <div className="chart-header">
+              <h4>🏅 Carbon Credit Generation Potential</h4>
+            </div>
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={analyticsData.creditPotential}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                <XAxis dataKey="name" stroke="var(--text-secondary)" angle={-45} textAnchor="end" height={80} />
+                <YAxis stroke="var(--text-secondary)" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'var(--background-secondary)', border: '1px solid var(--border-color)' }}
+                  formatter={(value, name) => [`${value} credits`, name]}
+                />
+                <Legend />
+                <Bar dataKey="current" stackId="credits" fill={COLORS[0]} name="Current Credits" />
+                <Bar dataKey="potential" stackId="credits" fill={COLORS[1]} name="Near-term Potential" />
+                <Bar dataKey="future" stackId="credits" fill={COLORS[2]} name="Future Potential" opacity={0.7} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Project Lifecycle Analysis */}
+          <div className="analytics-chart-card">
+            <div className="chart-header">
+              <h4>🌱 Project Lifecycle Distribution</h4>
+            </div>
+            <ResponsiveContainer width="100%" height={350}>
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: 'Planning', value: projects.filter(p => p.status === 'Planning').length, stage: 'early' },
+                    { name: 'Active', value: projects.filter(p => p.status === 'Active').length, stage: 'growth' },
+                    { name: 'Completed', value: projects.filter(p => p.status === 'Completed').length, stage: 'mature' }
+                  ].filter(item => item.value > 0)}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={120}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {[{ name: 'Planning' }, { name: 'Active' }, { name: 'Completed' }].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'var(--background-secondary)', border: '1px solid var(--border-color)' }}
+                  formatter={(value, name) => [`${value} projects`, name]}
+                />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Insights and Recommendations */}
+        <div className="analytics-insights">
+          <h4>💡 Key Insights & Recommendations</h4>
+          <div className="insights-grid">
+            <div className="insight-card positive">
+              <div className="insight-icon">✅</div>
+              <div className="insight-content">
+                <h5>Strong Performance</h5>
+                <p>Your portfolio is exceeding industry benchmarks with an average efficiency of {summaryStats.avgSequestrationRate.toFixed(2)} tCO₂/ha/yr, which is 12.5% above the industry average.</p>
+              </div>
+            </div>
+            
+            <div className="insight-card warning">
+              <div className="insight-icon">⚠️</div>
+              <div className="insight-content">
+                <h5>Climate Risk Monitoring</h5>
+                <p>Consider diversifying project locations and species selection to mitigate moderate climate risks. Implement enhanced monitoring systems for early risk detection.</p>
+              </div>
+            </div>
+            
+            <div className="insight-card opportunity">
+              <div className="insight-icon">🚀</div>
+              <div className="insight-content">
+                <h5>Revenue Optimization</h5>
+                <p>Current carbon credit generation is below potential. Focus on certification processes to unlock ${((summaryStats.totalSequestration * 0.85 - summaryStats.totalCarbonCredits) * 25 / 1000).toFixed(0)}K in additional revenue.</p>
+              </div>
+            </div>
+            
+            <div className="insight-card growth">
+              <div className="insight-icon">🌱</div>
+              <div className="insight-content">
+                <h5>Expansion Opportunity</h5>
+                <p>Mixed Forest projects show the highest ROI. Consider expanding this project type to reach the projected 3.6K tCO₂ sequestration target by 2030.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderAddProjectForm = () => (
     <div className="add-project-modal-overlay">
       <div className="add-project-modal">
@@ -657,12 +1037,7 @@ const SequestrationManager = () => {
       <div className="sequestration-content">
         {activeView === 'overview' && renderOverview()}
         {activeView === 'projects' && renderProjectsList()}
-        {activeView === 'analytics' && (
-          <div className="analytics-section">
-            <h3>📊 Advanced Analytics</h3>
-            <p>Detailed performance metrics and projections coming soon...</p>
-          </div>
-        )}
+        {activeView === 'analytics' && renderAdvancedAnalytics()}
       </div>
 
       {showAddProject && renderAddProjectForm()}
