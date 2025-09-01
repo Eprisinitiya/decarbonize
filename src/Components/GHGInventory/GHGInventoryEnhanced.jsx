@@ -87,7 +87,7 @@ const emissionFactors = {
 // Color scheme for charts
 const COLORS = ['#4cceac', '#00C49F', '#FFBB28', '#FF8042', '#ca71eb', '#8dd1e1'];
 
-const GHGInventory = () => {
+const GHGInventoryEnhanced = () => {
   const [activeTab, setActiveTab] = useState('fuel');
   const [entries, setEntries] = useState(initialEntries);
   const [formState, setFormState] = useState({});
@@ -921,4 +921,4 @@ const GHGInventory = () => {
   );
 };
 
-export default GHGInventory;
+export default GHGInventoryEnhanced;
