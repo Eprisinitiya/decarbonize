@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import DecarbonizeLogo from '../../assets/Decarbonize-Logo.png';
+import { authHelpers } from '../../config/firebase';
 
 // Google Icon SVG
 const GoogleIcon = () => (
@@ -20,39 +21,69 @@ const Login = ({ onLoginSuccess }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    setTimeout(() => {
-      if (email === 'admin@decarbonize.com' && password === 'password') {
-        onLoginSuccess({ role: 'Admin', name: 'Mohit', email });
-      } else if (email === 'operatormine@decarbonize.com' && password === 'password') {
-        onLoginSuccess({ role: 'Mine Operator', name: 'Aarushi', email });
-      } else if (email === 'verifier@decarbonize.com' && password === 'password') {
-        onLoginSuccess({ role: 'Verifier', name: 'Priya', email });
+    // Firebase Email/Password Sign In
+    const { user, error: authError } = await authHelpers.signInWithEmail(email, password);
+
+    if (authError) {
+      // Handle specific Firebase error messages
+      if (authError.includes('user-not-found')) {
+        setError('No account found with this email.');
+      } else if (authError.includes('wrong-password')) {
+        setError('Incorrect password. Please try again.');
+      } else if (authError.includes('invalid-email')) {
+        setError('Invalid email address.');
+      } else if (authError.includes('too-many-requests')) {
+        setError('Too many failed attempts. Please try again later.');
       } else {
-        setError('Invalid credentials. Please try again.');
+        setError('Login failed. Please check your credentials.');
       }
       setIsLoading(false);
-    }, 1000);
+    } else if (user) {
+      // Successfully logged in
+      onLoginSuccess({
+        role: 'Mine Operator', // Default role, you can customize this
+        name: user.displayName || user.email.split('@')[0],
+        email: user.email,
+        uid: user.uid,
+        photoURL: user.photoURL
+      });
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
     setError('');
     
-    // Simulate Google OAuth flow
-    setTimeout(() => {
+    // Firebase Google Sign In
+    const { user, error: authError } = await authHelpers.signInWithGoogle();
+
+    if (authError) {
+      if (authError.includes('popup-closed-by-user')) {
+        setError('Sign-in cancelled. Please try again.');
+      } else if (authError.includes('popup-blocked')) {
+        setError('Pop-up blocked. Please allow pop-ups and try again.');
+      } else {
+        setError('Google sign-in failed. Please try again.');
+      }
+      setIsLoading(false);
+    } else if (user) {
+      // Successfully logged in with Google
       onLoginSuccess({ 
         role: 'Mine Operator', 
-        name: 'John Doe', 
-        email: 'john.doe@gmail.com',
+        name: user.displayName || 'User', 
+        email: user.email,
+        uid: user.uid,
+        photoURL: user.photoURL,
         provider: 'google'
       });
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

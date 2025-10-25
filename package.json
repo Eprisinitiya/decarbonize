@@ -11,6 +11,7 @@
     "deploy": "npm run build"
   },
   "dependencies": {
+    "firebase": "^12.4.0",
     "react": "^19.1.1",
     "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-dom": "^19.1.1",

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Signup.css';
 import Navbar from '../Layout/Navbar';
 import DecarbonizeLogo from '../../assets/Decarbonize-Logo.png';
+import { authHelpers } from '../../config/firebase';
 
 // Google Icon SVG
 const GoogleIcon = () => (
@@ -27,7 +28,7 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -52,23 +53,61 @@ const Signup = () => {
       return;
     }
 
-    // Mock API Call for Signup
-    setTimeout(() => {
-      console.log('New user signed up:', { fullName, companyName, role, email });
+    // Firebase Sign Up
+    const { user, error: authError } = await authHelpers.signUpWithEmail(email, password, fullName);
+
+    if (authError) {
+      // Handle specific Firebase error messages
+      if (authError.includes('email-already-in-use')) {
+        setError('This email is already registered. Please sign in instead.');
+      } else if (authError.includes('invalid-email')) {
+        setError('Invalid email address.');
+      } else if (authError.includes('weak-password')) {
+        setError('Password is too weak. Please use a stronger password.');
+      } else {
+        setError('Sign up failed. Please try again.');
+      }
+      setIsLoading(false);
+    } else if (user) {
+      // Successfully signed up
+      console.log('New user signed up:', { fullName, companyName, role, email, uid: user.uid });
       setSuccess(true);
       setIsLoading(false);
-    }, 1500);
+      
+      // Optional: Redirect to dashboard after 2 seconds
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+    }
   };
 
-  const handleGoogleSignup = () => {
+  const handleGoogleSignup = async () => {
     setIsLoading(true);
     setError('');
     
-    // Simulate Google OAuth flow
-    setTimeout(() => {
+    // Firebase Google Sign Up
+    const { user, error: authError } = await authHelpers.signInWithGoogle();
+
+    if (authError) {
+      if (authError.includes('popup-closed-by-user')) {
+        setError('Sign-up cancelled. Please try again.');
+      } else if (authError.includes('popup-blocked')) {
+        setError('Pop-up blocked. Please allow pop-ups and try again.');
+      } else {
+        setError('Google sign-up failed. Please try again.');
+      }
+      setIsLoading(false);
+    } else if (user) {
+      // Successfully signed up with Google
+      console.log('New user signed up with Google:', { email: user.email, uid: user.uid });
       setSuccess(true);
       setIsLoading(false);
-    }, 1500);
+      
+      // Optional: Redirect to dashboard after 2 seconds
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 2000);
+    }
   };
 
   return (

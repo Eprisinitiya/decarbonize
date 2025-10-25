@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { authHelpers } from './config/firebase';
 
 // --- Global Styles ---
 // Import your main CSS file which contains the dark theme variables
@@ -70,15 +71,31 @@ const ProtectedRoute = ({ user, children }) => {
 function App() {
   // Master state to track the currently logged-in user.
   // 'null' means the user is logged out.
-  // For development purposes, we'll set a default test user
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john.doe@ecotechsolutions.com',
-    role: 'Sustainability Manager',
-    company: 'EcoTech Solutions',
-    phone: '+1 (555) 123-4567',
-    department: 'Environmental Affairs'
-  });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Listen to Firebase auth state changes
+  useEffect(() => {
+    const unsubscribe = authHelpers.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        // User is signed in
+        setUser({
+          name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+          email: firebaseUser.email,
+          role: 'Mine Operator', // Default role
+          uid: firebaseUser.uid,
+          photoURL: firebaseUser.photoURL
+        });
+      } else {
+        // User is signed out
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   // This function will be passed down to the LoginPage to update the master state on success.
   const handleLoginSuccess = (userData) => {
@@ -86,7 +103,8 @@ function App() {
   };
 
   // This function will be passed down to the Navbar to clear the user state.
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authHelpers.signOut();
     setUser(null);
   };
 
@@ -94,6 +112,24 @@ function App() {
   const handleUpdateProfile = (updatedProfileData) => {
     setUser(prevUser => ({ ...prevUser, ...updatedProfileData }));
   };
+
+  // Show loading screen while checking auth state
+  if (loading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        background: 'var(--bg-primary, #0a0e1a)'
+      }}>
+        <div style={{ textAlign: 'center', color: '#fff' }}>
+          <div className="loading-spinner" style={{ margin: '0 auto 20px' }}></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Router>
