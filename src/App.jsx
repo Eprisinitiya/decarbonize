@@ -22,7 +22,8 @@ import Login from './components/Authentication/Login';
 
 // --- Feature Components (for nested routing) ---
 // These are the core content views that will be swapped in the main area
-import Dashboard from './Components/Dashboard/Dashboard';
+import Dashboard from './Components/Dashboard/DashboardRedesigned';
+// import DashboardOld from './Components/Dashboard/Dashboard'; // Old dashboard backup
 import GHGInventory from './Components/GHGInventory/GHGInventory';
 import SequestrationManager from './Components/Sequestration/SequestrationManager';
 import SimulationDashboard from './Components/Simulation/SimulationDashboard';
