@@ -45,12 +45,21 @@ const Login = ({ onLoginSuccess }) => {
       setIsLoading(false);
     } else if (user) {
       // Successfully logged in
+      // Check if this is the first login after registration
+      const isFirstLoginAfterSignup = localStorage.getItem(`first_login_after_signup_${user.email}`) === 'true';
+      
+      // Clear the first login flag after using it
+      if (isFirstLoginAfterSignup) {
+        localStorage.removeItem(`first_login_after_signup_${user.email}`);
+      }
+      
       onLoginSuccess({
         role: 'Mine Operator', // Default role, you can customize this
         name: user.displayName || user.email.split('@')[0],
         email: user.email,
         uid: user.uid,
-        photoURL: user.photoURL
+        photoURL: user.photoURL,
+        isFirstLoginAfterSignup
       });
       setIsLoading(false);
     }
@@ -74,13 +83,22 @@ const Login = ({ onLoginSuccess }) => {
       setIsLoading(false);
     } else if (user) {
       // Successfully logged in with Google
+      // Check if this is the first login after registration
+      const isFirstLoginAfterSignup = localStorage.getItem(`first_login_after_signup_${user.email}`) === 'true';
+      
+      // Clear the first login flag after using it
+      if (isFirstLoginAfterSignup) {
+        localStorage.removeItem(`first_login_after_signup_${user.email}`);
+      }
+      
       onLoginSuccess({ 
         role: 'Mine Operator', 
         name: user.displayName || 'User', 
         email: user.email,
         uid: user.uid,
         photoURL: user.photoURL,
-        provider: 'google'
+        provider: 'google',
+        isFirstLoginAfterSignup
       });
       setIsLoading(false);
     }
@@ -220,15 +238,6 @@ const Login = ({ onLoginSuccess }) => {
 
             <div className="auth-footer">
               <p>Don't have an account? <a href="/signup" className="signup-link">Create one here</a></p>
-              <div className="demo-accounts">
-                <p className="demo-title">Demo Accounts:</p>
-                <div className="demo-list">
-                  <span>admin@decarbonize.com</span>
-                  <span>operatormine@decarbonize.com</span>
-                  <span>verifier@decarbonize.com</span>
-                  <span className="demo-password">Password: password</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

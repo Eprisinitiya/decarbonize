@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import DecarbonizeLogo from '../../assets/Decarbonize-Logo.png';
+import NotificationCenter from '../common/NotificationCenter';
+import AccountMenu from '../common/AccountMenu';
 
 // Enhanced SVG icons
 const NotificationIcon = ({ hasNotifications }) => (
@@ -89,46 +91,25 @@ const sampleNotifications = [
 
 const Navbar = ({ user, onLogout, onToggleSidebar }) => {
   const [notifications, setNotifications] = useState(sampleNotifications);
-  const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
-  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
-  // Calculate unread notifications
-  const unreadCount = notifications.filter(n => !n.read).length;
-  const hasNotifications = unreadCount > 0;
 
   // Handle notification actions
-  const markAsRead = (notificationId) => {
+  const handleMarkAsRead = (notificationId) => {
     setNotifications(prev => 
       prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
     );
   };
 
-  const markAllAsRead = () => {
+  const handleMarkAllAsRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
   };
 
-  const clearAllNotifications = () => {
-    setNotifications([]);
+  const handleDeleteNotification = (notificationId) => {
+    setNotifications(prev => prev.filter(n => n.id !== notificationId));
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Check if click is outside notification dropdown
-      if (!event.target.closest('.navbar-icon-dropdown') && notificationDropdownOpen) {
-        setNotificationDropdownOpen(false);
-      }
-      // Check if click is outside profile dropdown
-      if (!event.target.closest('.navbar-profile-menu') && profileDropdownOpen) {
-        setProfileDropdownOpen(false);
-      }
-    };
-
-    if (notificationDropdownOpen || profileDropdownOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [notificationDropdownOpen, profileDropdownOpen]);
+  const handleClearAll = () => {
+    setNotifications([]);
+  };
 
   return (
     <nav className="navbar">
@@ -157,121 +138,22 @@ const Navbar = ({ user, onLogout, onToggleSidebar }) => {
       </div>
       <div className="navbar-right">
         {user ? (
-          // Logged-In View
+          // Logged-In View with Modern Components
           <>
-            {/* Enhanced Notification Dropdown */}
-            <div className={`navbar-icon-dropdown ${notificationDropdownOpen ? 'open' : ''}`}>
-              <button 
-                className="navbar-icon-btn" 
-                onClick={() => setNotificationDropdownOpen(!notificationDropdownOpen)}
-                aria-label={`Notifications ${hasNotifications ? `(${unreadCount} unread)` : ''}`}
-              >
-                <NotificationIcon hasNotifications={hasNotifications} />
-                {hasNotifications && (
-                  <span className="notification-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
-                )}
-              </button>
-              <div className={`navbar-dropdown notification-dropdown ${notificationDropdownOpen ? 'show' : ''}`}>
-                <div className="dropdown-header">
-                  <div className="notification-header">
-                    <div className="notification-title">
-                      <BellIcon />
-                      <strong>Notifications</strong>
-                      {hasNotifications && <span className="unread-count">({unreadCount} unread)</span>}
-                    </div>
-                    <div className="notification-actions">
-                      {hasNotifications && (
-                        <button 
-                          className="mark-all-read-btn"
-                          onClick={markAllAsRead}
-                          title="Mark all as read"
-                        >
-                          Mark all read
-                        </button>
-                      )}
-                      {notifications.length > 0 && (
-                        <button 
-                          className="clear-all-btn"
-                          onClick={clearAllNotifications}
-                          title="Clear all notifications"
-                        >
-                          Clear all
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="dropdown-content notification-list">
-                  {notifications.length === 0 ? (
-                    <div className="empty-notifications">
-                      <BellIcon />
-                      <p>No notifications</p>
-                      <small>You're all caught up!</small>
-                    </div>
-                  ) : (
-                    <div className="notifications-scroll">
-                      {notifications.map(notification => (
-                        <div 
-                          key={notification.id} 
-                          className={`notification-item ${notification.read ? 'read' : 'unread'} ${notification.type}`}
-                          onClick={() => !notification.read && markAsRead(notification.id)}
-                        >
-                          <div className="notification-content">
-                            <div className="notification-title-line">
-                              <strong>{notification.title}</strong>
-                              <span className={`priority-indicator priority-${notification.priority}`}></span>
-                            </div>
-                            <div className="notification-message">{notification.message}</div>
-                            <div className="notification-time">{notification.time}</div>
-                          </div>
-                          {!notification.read && <div className="unread-dot"></div>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            {/* Modern Notification Center */}
+            <NotificationCenter
+              notifications={notifications}
+              onMarkAsRead={handleMarkAsRead}
+              onDeleteNotification={handleDeleteNotification}
+              onMarkAllAsRead={handleMarkAllAsRead}
+              onClearAll={handleClearAll}
+            />
 
-            {/* Enhanced Profile Dropdown */}
-            <div className={`navbar-profile-menu ${profileDropdownOpen ? 'open' : ''}`}>
-              <button 
-                className="navbar-profile-btn"
-                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-              >
-                <UserIcon />
-                <span>{user.name}</span>
-              </button>
-              <div className={`navbar-dropdown profile-dropdown ${profileDropdownOpen ? 'show' : ''}`}>
-                <div className="dropdown-header profile-header">
-                  <div className="profile-avatar">
-                    <UserIcon />
-                  </div>
-                  <div className="profile-info">
-                    <strong>{user.name}</strong>
-                    <p>{user.email || user.role}</p>
-                  </div>
-                </div>
-                <div className="dropdown-content profile-menu">
-                  <Link to="/profile" className="dropdown-item">
-                    <SettingsIcon />
-                    <span>Profile Settings</span>
-                  </Link>
-                  <Link to="/preferences" className="dropdown-item">
-                    <BellIcon />
-                    <span>Notification Settings</span>
-                  </Link>
-                  <div className="dropdown-divider"></div>
-                  <button 
-                    className="dropdown-item logout-item" 
-                    onClick={onLogout}
-                  >
-                    <LogoutIcon />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* Modern Account Menu */}
+            <AccountMenu
+              user={user}
+              onLogout={onLogout}
+            />
           </>
         ) : (
           // Default (Logged-Out) View

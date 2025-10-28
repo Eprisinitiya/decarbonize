@@ -114,23 +114,28 @@ const Sidebar = ({ user }) => {
           </div>
         </div>
       </div>
-      <nav className="sidebar-nav">
-        <ul>
-          {itemsToShow.map(item => (
-            <li key={item.name}>
-              <NavLink
-                to={item.path}
-                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-                title={item.description}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                <div className="nav-content">
-                  <span className="nav-text">{item.name}</span>
-                  <span className="nav-description">{item.description}</span>
-                </div>
-              </NavLink>
-            </li>
-          ))}
+      <nav className="sidebar-nav" aria-label="Main navigation">
+        <ul role="navigation">
+          {itemsToShow.map(item => {
+            return (
+              <li key={item.name}>
+                <NavLink
+                  to={item.path}
+                  end
+                  className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                  title={item.description}
+                  aria-label={`${item.name}: ${item.description}`}
+                  aria-current={({ isActive }) => (isActive ? 'page' : false)}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <div className="nav-content">
+                    <span className="nav-text">{item.name}</span>
+                    <span className="nav-description">{item.description}</span>
+                  </div>
+                </NavLink>
+              </li>
+            );
+          })}
         </ul>
       </nav>
       <div className="sidebar-footer">

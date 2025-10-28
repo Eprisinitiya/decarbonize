@@ -71,6 +71,8 @@ const Signup = () => {
     } else if (user) {
       // Successfully signed up
       console.log('New user signed up:', { fullName, companyName, role, email, uid: user.uid });
+      // Set flag to show onboarding tour on first login
+      localStorage.setItem(`first_login_after_signup_${email}`, 'true');
       setSuccess(true);
       setIsLoading(false);
       
@@ -100,6 +102,8 @@ const Signup = () => {
     } else if (user) {
       // Successfully signed up with Google
       console.log('New user signed up with Google:', { email: user.email, uid: user.uid });
+      // Set flag to show onboarding tour on first login
+      localStorage.setItem(`first_login_after_signup_${user.email}`, 'true');
       setSuccess(true);
       setIsLoading(false);
       

@@ -54,29 +54,39 @@ const HomePage = () => {
         <div className="hero-content">
           <div className="hero-badge">
             <span className="badge-icon">🌍</span>
-            <span>Next-Generation Carbon Management</span>
+            <span>Enterprise Carbon Management</span>
           </div>
           <h1 className="hero-heading">
-            The Future of 
             <span className="carbon-accounting-highlight">
-              <span className="highlight-text">Carbon Intelligence</span>
+              <span className="highlight-text">Measure & Cut Your Carbon — In Minutes</span>
               <div className="highlight-glow"></div>
             </span>
           </h1>
           <p className="hero-subheading">
-            Harness AI-powered analytics to transform your industrial operations into a 
-            sustainable, profitable, and future-ready enterprise.
+            Auto-generate enterprise emissions baselines, visualize hotspots, and prioritize high-impact decarbonization actions.
           </p>
           <div className="hero-cta-group">
             <button
               className="hero-cta-button primary"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/signup')}
+              aria-label="Start free trial"
             >
-              <span>Start Your Journey</span>
+              <span>Start Free Trial</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.16669 10H15.8334" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M10 4.16669L15.8333 10L10 15.8334" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <div className="button-glow"></div>
             </button>
-            <button className="hero-cta-button secondary">
-              <span>🎥 Watch Demo</span>
+            <button 
+              className="hero-cta-button secondary"
+              onClick={() => navigate('/login')}
+              aria-label="View demo"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+              </svg>
+              <span>Watch Demo</span>
             </button>
           </div>
           <div className="hero-stats">

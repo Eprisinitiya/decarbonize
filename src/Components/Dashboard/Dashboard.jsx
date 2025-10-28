@@ -6,6 +6,11 @@ import {
   LineChart, Line, AreaChart, Area, ComposedChart, Scatter,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar 
 } from 'recharts';
+import { HelpIcon } from '../common/Tooltip';
+import FileUpload from '../common/FileUpload';
+import PersonalizedDashboard from './PersonalizedDashboard';
+import { DashboardEmptyState } from '../common/EmptyState';
+import ActionsPanel from './ActionsPanel';
 
 // --- Expanded Mock Data Sets for Different Time Frames ---
 const mockData = {
@@ -305,15 +310,27 @@ const mockData = {
   }
 };
 
-const DONUT_COLORS = ['#4cceac', '#00C49F', '#FFBB28', '#FF8042', '#ca71eb'];
-const EMISSION_COLOR = '#4cceac';
-const PRODUCTION_COLOR = '#3da68a';
-const INTENSITY_COLOR = '#ca71eb';
-const COMPANY_COLOR = '#4cceac';
-const INDUSTRY_COLOR = '#FF8042';
-const TARGET_COLOR = '#FFBB28';
-const FORECAST_COLOR = '#FF8042';
-const ACTUAL_COLOR = '#4cceac';
+// Standardized Chart Color Palette
+const CHART_COLORS = {
+  primary: '#4cceac',      // Teal - Primary emissions/data
+  secondary: '#3da68a',    // Dark teal - Secondary metrics
+  accent: '#2dd4bf',       // Bright teal - Accents
+  success: '#10b981',      // Green - Positive trends
+  warning: '#FFBB28',      // Yellow - Warnings/targets
+  danger: '#FF8042',       // Orange-red - Negative trends
+  purple: '#ca71eb',       // Purple - Intensity metrics
+  neutral: '#9ca3af'       // Gray - Neutral data
+};
+
+const DONUT_COLORS = [CHART_COLORS.primary, CHART_COLORS.secondary, CHART_COLORS.warning, CHART_COLORS.danger, CHART_COLORS.purple];
+const EMISSION_COLOR = CHART_COLORS.primary;
+const PRODUCTION_COLOR = CHART_COLORS.secondary;
+const INTENSITY_COLOR = CHART_COLORS.purple;
+const COMPANY_COLOR = CHART_COLORS.primary;
+const INDUSTRY_COLOR = CHART_COLORS.danger;
+const TARGET_COLOR = CHART_COLORS.warning;
+const FORECAST_COLOR = CHART_COLORS.danger;
+const ACTUAL_COLOR = CHART_COLORS.primary;
 
 // Sample recent activity and alerts
 const recentActivity = [
@@ -336,10 +353,18 @@ const Dashboard = ({ user }) => {
   const [timeFrame, setTimeFrame] = useState('quarterly');
   const [activeKPI, setActiveKPI] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  const [showPersonalized, setShowPersonalized] = useState(false);
+  const [hasData, setHasData] = useState(true); // Set to false for empty state demo
   const data = mockData[timeFrame];
 
   // Simulated loading state for real-world API calls
   const [isLoading, setIsLoading] = useState(false);
+
+  // Handle file upload
+  const handleFileUpload = (file) => {
+    console.log('File uploaded:', file.name);
+    setHasData(true); // Mark that data has been uploaded
+  };
 
   useEffect(() => {
     // Simulate API call when timeframe changes
@@ -420,39 +445,110 @@ const Dashboard = ({ user }) => {
           <button onClick={toggleExpanded} className="expand-btn">
             {expanded ? 'Compact View' : 'Expanded View'}
           </button>
+          <button 
+            onClick={() => setShowPersonalized(!showPersonalized)}
+            className={`dashboard-toggle-btn ${showPersonalized ? 'active' : ''}`}
+            title="Toggle personalized KPI view"
+          >
+            {showPersonalized ? '📊 Standard View' : '📌 Pinnable KPIs'}
+          </button>
         </div>
       </header>
       
+      {/* Show personalized dashboard if toggled */}
+      {showPersonalized && (
+        <section className="dashboard-section">
+          <PersonalizedDashboard user={user} allKPIs={data.kpis} />
+        </section>
+      )}
+
+      {/* Show file upload section */}
+      <section className="dashboard-section upload-section">
+        <h2>Upload Emission Data</h2>
+        <FileUpload 
+          onFileSelect={handleFileUpload}
+          acceptedFormats={['.csv', '.xlsx', '.json']}
+          maxSizeMB={50}
+          title="Upload Your Facility Data"
+          description="Drag and drop your emissions data file here, or click to browse"
+        />
+      </section>
+
       {isLoading ? (
         <div className="loading-indicator">
           <div className="spinner"></div>
           <p>Loading dashboard data...</p>
         </div>
+      ) : !hasData ? (
+        <DashboardEmptyState onUploadClick={() => { /* scroll to upload */ }} />
       ) : (
         <>
-          <div className="kpi-grid">
+          {/* Tier 1: Global KPIs */}
+          <div className="dashboard-tier-top">
+            <div className="kpi-grid">
             {data.kpis.map((kpi, index) => (
               <div 
                 key={index} 
                 className={`kpi-card ${activeKPI === index ? 'active' : ''}`}
-                onClick={() => handleKPIClick(index)}
               >
-                <div className="kpi-header">
-                  <h3 className="kpi-title">{kpi.title}</h3>
-                  {renderValueTrendIndicator(kpi.change, kpi.changeType)}
+                <div>
+                  <div className="kpi-header">
+                    <h3 className="kpi-title">
+                      {kpi.title}
+                      {index === 0 && (
+                        <HelpIcon 
+                          content="Total greenhouse gas emissions across all scopes: Scope 1 (direct emissions), Scope 2 (indirect from energy), and Scope 3 (value chain)."
+                          ariaLabel="Explanation of Total GHG Emissions"
+                        />
+                      )}
+                      {index === 1 && (
+                        <HelpIcon 
+                          content="Net emissions after accounting for carbon sequestration projects and offsets. Shows your actual carbon impact."
+                          ariaLabel="Explanation of Net Carbon Balance"
+                        />
+                      )}
+                      {index === 2 && (
+                        <HelpIcon 
+                          content="Emissions per unit of production (tCO₂e/tonne). Lower values indicate better efficiency."
+                          ariaLabel="Explanation of Emission Intensity"
+                        />
+                      )}
+                    </h3>
+                    {renderValueTrendIndicator(kpi.change, kpi.changeType)}
+                  </div>
+                  <div className="kpi-main">
+                    <div className="kpi-value">{kpi.value}</div>
+                    <div className="kpi-unit">{kpi.unit}</div>
+                  </div>
                 </div>
-                <div className="kpi-main">
-                  <p className="kpi-value">{kpi.value}</p>
-                  <p className="kpi-unit">{kpi.unit}</p>
-                </div>
+                <button 
+                  className="kpi-view-detail"
+                  onClick={() => handleKPIClick(index)}
+                  aria-label={`View details for ${kpi.title}`}
+                >
+                  <span>{activeKPI === index ? 'Hide details' : 'View details'}</span>
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.16669 10H15.8334" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M10 4.16669L15.8333 10L10 15.8334" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
                 {renderKPIDetails(kpi, index)}
               </div>
             ))}
+            </div>
           </div>
           
-          <div className={`widgets-grid ${expanded ? 'expanded' : ''}`}>
+          {/* Tier 2: Time-series Charts */}
+          <div className="dashboard-tier-middle">
+            <div className={`widgets-grid ${expanded ? 'expanded' : ''}`}>
             <div className="widget-card large-widget">
-              <h3>GHG Emissions Trend ({timeFrame})</h3>
+              <h3>
+                GHG Emissions Trend ({timeFrame})
+                <HelpIcon 
+                  content="Emissions measured in tonnes of CO₂ equivalent (tCO₂e) over the selected time period. Green line shows production volume for context."
+                  ariaLabel="Explanation of emissions trend chart"
+                />
+              </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <ComposedChart data={data.trendData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
@@ -503,7 +599,13 @@ const Dashboard = ({ user }) => {
             </div>
             
             <div className="widget-card">
-              <h3>Emissions by Source</h3>
+              <h3>
+                Emissions by Source
+                <HelpIcon 
+                  content="Breakdown of total emissions by source type. Hover over segments to see detailed values and percentages."
+                  ariaLabel="Explanation of emissions breakdown"
+                />
+              </h3>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie 
@@ -538,7 +640,12 @@ const Dashboard = ({ user }) => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
+            </div>
+          </div>
             
+          {/* Tier 3: Breakdown Tables & Action Items */}
+          <div className="dashboard-tier-bottom">
+            <div className="widgets-grid">
             <div className="widget-card">
               <h3>Needs Attention</h3>
               <ul className="attention-list">
@@ -732,6 +839,12 @@ const Dashboard = ({ user }) => {
                 </div>
               </>
             )}
+            </div>
+          </div>
+          
+          {/* Tier 3: Action Recommendations */}
+          <div className="dashboard-tier-bottom">
+            <ActionsPanel />
           </div>
         </>
       )}

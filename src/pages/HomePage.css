@@ -254,32 +254,56 @@ body {
 
 .hero-cta-button {
   position: relative;
-  padding: 1rem 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 180px;
+  padding: 16px 32px;
   border-radius: 0.75rem;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   backdrop-filter: blur(10px);
+  white-space: nowrap;
 }
 
 .hero-cta-button.primary {
   background: linear-gradient(135deg, #4cceac, #3da68a);
   color: white;
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 4px 16px rgba(76, 206, 172, 0.4);
+  min-width: 200px;
+}
+
+.hero-cta-button.primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(76, 206, 172, 0.5);
 }
 
 .hero-cta-button.secondary {
-  background: rgba(76, 206, 172, 0.1);
+  background: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(76, 206, 172, 0.3);
+  border: 2px solid rgba(76, 206, 172, 0.4);
+  min-width: 160px;
 }
 
-.hero-cta-button:hover {
+.hero-cta-button.secondary:hover {
+  background: rgba(76, 206, 172, 0.1);
+  border-color: rgba(76, 206, 172, 0.6);
   transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(76, 206, 172, 0.4);
+}
+
+.hero-cta-button svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.hero-cta-button.primary:hover svg {
+  transform: translateX(4px);
 }
 
 .button-glow {
@@ -427,7 +451,7 @@ body {
 
 /* ===== FEATURES SECTION ===== */
 .features-section {
-  padding: 8rem 2rem;
+  padding: 96px 2rem;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
@@ -507,7 +531,7 @@ body {
 }
 
 .card-content {
-  padding: 2rem;
+  padding: 28px;
   position: relative;
   z-index: 2;
 }
@@ -916,7 +940,7 @@ body {
 
 /* ===== HOW IT WORKS SECTION ===== */
 .how-it-works-section {
-  padding: 8rem 2rem;
+  padding: 80px 2rem;
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.5), rgba(38, 38, 38, 0.5));
   position: relative;
   z-index: 2;
@@ -1008,7 +1032,7 @@ body {
 
 /* ===== TESTIMONIALS SECTION ===== */
 .testimonials-section {
-  padding: 8rem 2rem;
+  padding: 80px 2rem;
   position: relative;
   z-index: 2;
 }
@@ -1027,7 +1051,7 @@ body {
   background: linear-gradient(145deg, rgba(26, 26, 26, 0.8), rgba(38, 38, 38, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1.5rem;
-  padding: 2.5rem;
+  padding: 28px;
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(20px);
@@ -1078,7 +1102,7 @@ body {
 
 /* ===== FINAL CTA SECTION ===== */
 .final-cta-section {
-  padding: 8rem 2rem;
+  padding: 80px 2rem;
   text-align: center;
   background: linear-gradient(135deg, rgba(76, 206, 172, 0.1), rgba(45, 212, 191, 0.1));
   position: relative;

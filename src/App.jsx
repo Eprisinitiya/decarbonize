@@ -10,6 +10,8 @@ import './assets/styles/main.css';
 // These form the persistent shell of your application when logged in
 import Navbar from './Components/Layout/Navbar';
 import Sidebar from './Components/Layout/Sidebar';
+import OnboardingTour from './Components/common/OnboardingTour';
+import DecarbonizeLogo from './assets/Decarbonize-Logo.png';
 
 // --- Page Components ---
 // These act as the main entry points for different views
@@ -44,12 +46,17 @@ const AppLayout = ({ user, onLogout, onUpdateProfile }) => {
       />
       <div style={{ display: 'flex' }}>
         {sidebarOpen && <Sidebar user={user} />}
-        <main style={{
-          marginLeft: sidebarOpen ? '260px' : '0',
-          flexGrow: 1,
-          width: sidebarOpen ? 'calc(100% - 260px)' : '100%',
-          transition: 'margin-left 0.3s'
-        }}>
+        <main 
+          id="main-content"
+          style={{
+            marginLeft: sidebarOpen ? '260px' : '0',
+            flexGrow: 1,
+            width: sidebarOpen ? 'calc(100% - 260px)' : '100%',
+            transition: 'margin-left 0.3s'
+          }}
+          role="main"
+          aria-label="Main content"
+        >
           <Outlet context={{ user, onUpdateProfile, onLogout }} /> {/* Nested route components will be rendered here */}
         </main>
       </div>
@@ -73,6 +80,7 @@ function App() {
   // 'null' means the user is logged out.
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Listen to Firebase auth state changes
   useEffect(() => {
@@ -100,6 +108,10 @@ function App() {
   // This function will be passed down to the LoginPage to update the master state on success.
   const handleLoginSuccess = (userData) => {
     setUser(userData);
+    // Show onboarding tour only on first login after registration
+    if (userData.isFirstLoginAfterSignup) {
+      setShowOnboarding(true);
+    }
   };
 
   // This function will be passed down to the Navbar to clear the user state.
@@ -116,16 +128,14 @@ function App() {
   // Show loading screen while checking auth state
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        background: 'var(--bg-primary, #0a0e1a)'
-      }}>
-        <div style={{ textAlign: 'center', color: '#fff' }}>
-          <div className="loading-spinner" style={{ margin: '0 auto 20px' }}></div>
-          <p>Loading...</p>
+      <div className="loading-splash">
+        <div className="splash-container">
+          <div className="splash-logo-wrapper">
+            <img src={DecarbonizeLogo} alt="Decarbonize" className="splash-logo" />
+            <div className="splash-glow"></div>
+          </div>
+          <div className="splash-spinner"></div>
+          <p className="splash-text">Loading Decarbonize</p>
         </div>
       </div>
     );
@@ -133,6 +143,16 @@ function App() {
 
   return (
     <Router>
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+      {/* Show onboarding tour only on first login after registration */}
+      {showOnboarding && user && (
+        <OnboardingTour 
+          onClose={() => setShowOnboarding(false)}
+          userEmail={user.email}
+        />
+      )}
       <Routes>
         {/* --- Public Routes --- */}
         {/* These routes are accessible to everyone, logged in or not. */}
