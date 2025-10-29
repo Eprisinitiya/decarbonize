@@ -997,20 +997,6 @@ const SequestrationManager = () => {
           <h1>🌍 Carbon Sequestration Portfolio</h1>
           <p>Manage afforestation, reforestation, and land restoration projects with comprehensive tracking and analytics.</p>
         </div>
-        <div className="header-stats">
-          <div className="stat-item">
-            <span className="stat-value">{summaryStats.totalSequestration.toFixed(0)}</span>
-            <span className="stat-label">tCO₂ Sequestered</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{summaryStats.activeProjects}</span>
-            <span className="stat-label">Active Projects</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{summaryStats.totalArea}</span>
-            <span className="stat-label">Total Hectares</span>
-          </div>
-        </div>
       </header>
 
       <div className="sequestration-tabs">

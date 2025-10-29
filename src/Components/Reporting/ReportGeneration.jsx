@@ -515,20 +515,6 @@ const ReportGeneration = () => {
           <h1>📊 Report Generation Center</h1>
           <p>Create comprehensive, customized reports for stakeholders, auditors, and regulatory compliance with advanced filtering and multiple export formats.</p>
         </div>
-        <div className="header-stats">
-          <div className="stat-item">
-            <span className="stat-value">{reportTemplates.length}</span>
-            <span className="stat-label">Templates</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{selectedSections.length}</span>
-            <span className="stat-label">Sections</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{reportStats?.estimatedPages || 0}</span>
-            <span className="stat-label">Est. Pages</span>
-          </div>
-        </div>
       </header>
 
       <div className="report-wizard">

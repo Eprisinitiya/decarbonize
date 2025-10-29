@@ -193,6 +193,26 @@
   transition: color 0.3s ease;
 }
 
+/* Badge styling */
+.nav-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-primary), #00C49F);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 .sidebar-footer {
   padding: 1rem;
   border-top: 1px solid var(--border-color);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DashboardRedesigned.css';
+import './Dashboard.css';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import FileUpload from '../common/FileUpload';
 
@@ -27,7 +27,7 @@ const mockReductionInitiatives = [
   { name: 'Process Efficiency', target: 8, achieved: 7, progress: 88 },
 ];
 
-const DashboardRedesigned = ({ user }) => {
+const Dashboard = ({ user }) => {
   const [timeFrame, setTimeFrame] = useState('monthly');
   const [selectedInitiative, setSelectedInitiative] = useState(null);
   const [pinnedKPIs, setPinnedKPIs] = useState([0, 1, 2, 3]); // All pinned by default
@@ -322,4 +322,4 @@ const DashboardRedesigned = ({ user }) => {
   );
 };
 
-export default DashboardRedesigned;
+export default Dashboard;

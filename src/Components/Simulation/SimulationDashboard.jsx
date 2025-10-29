@@ -519,20 +519,6 @@ const SimulationDashboard = () => {
           <h1>🎯 Simulation & Scenario Dashboard</h1>
           <p>Model and compare different decarbonization strategies with advanced scenario planning and financial analysis.</p>
         </div>
-        <div className="header-stats">
-          <div className="stat-item">
-            <span className="stat-value">{selectedLevers.length}</span>
-            <span className="stat-label">Active Levers</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{simulationResults ? simulationResults.totalEmissionReduction.toFixed(0) : '0'}</span>
-            <span className="stat-label">tCO₂e Reduction</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{simulationResults ? `$${(simulationResults.npv / 1000000).toFixed(1)}M` : '$0M'}</span>
-            <span className="stat-label">NPV</span>
-          </div>
-        </div>
       </header>
 
       <div className="simulation-tabs">

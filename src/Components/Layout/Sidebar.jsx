@@ -132,23 +132,14 @@ const Sidebar = ({ user }) => {
                     <span className="nav-text">{item.name}</span>
                     <span className="nav-description">{item.description}</span>
                   </div>
+                  {item.badge && <span className="nav-badge">{item.badge}</span>}
                 </NavLink>
               </li>
             );
           })}
         </ul>
       </nav>
-      <div className="sidebar-footer">
-        <div className="sidebar-stats">
-          <div className="stat-item">
-            <span className="stat-icon">🌍</span>
-            <div className="stat-text">
-              <span className="stat-label">Carbon Impact</span>
-              <span className="stat-value">-15.2%</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="sidebar-footer"></div>
     </aside>
   );
 };
